@@ -1,0 +1,106 @@
+stmt_list    <- *(statement) ws
+
+statement   <= ws (
+                block
+                | assignment :';'
+                | definition :';'
+                | if
+                | fun
+                | class
+                | return :';'
+                | expr :';'
+                ) 
+
+# Comments
+# =====================================================
+comment_ln  <: *[ \t\n\r] '//' *(!'\n' .)
+comment_bl  <: *[ \t\n\r] '/*' *(.) '*/'
+comment     <: comment_ln | comment_bl
+
+# Basic
+# =====================================================
+if          <- :'if' ws :'(' expr :')' ws statement ws ?(:'else' ws statement ws)
+block       <- :'{' ?statement ws :'}' ws
+assignment  <- (expr | definition) ws :'=' ws expr
+definition  <- identifier wsp type
+deflist     <- definition *(:',' ws definition) | ws
+
+identifier  <- [a-zA-Z_] *([a-zA-Z0-9_])
+list        <- expr *(:',' ws expr) | ws
+
+# Functions
+# =====================================================
+fun         <- :'fun' wsp identifier ws type ws :'{' stmt_list ws :'}' ws
+return      <- :'return' wsp expr
+
+# classes
+# =====================================================
+class       <- :'class' wsp identifier ?(wsp 'extends' identifier) ws :'{' cls_stm_lst ws :'}' ws
+cls_assign  <- cls_def ws :'=' ws expr
+cls_def     <- (?'static' wsp | ?'pub' wsp) identifier wsp type
+cls_fun     <- (?'static' wsp | ?'pub' wsp) :'fun' wsp identifier ws type ws :'{' stmt_list ws :'}' ws
+cls_stmt    <- ws (
+                cls_def :';'
+                | cls_assign :';'
+                | cls_fun
+                )
+cls_stm_lst <- *(cls_stmt) ws
+
+# Expressions
+# =====================================================
+expr        <- ws or
+
+# Logic
+or          <= and *('or' ws and)
+and         <= bitwise_or *('and' ws bitwise_or)
+bitwise_or  <= bitwise_xor *('|' ws bitwise_xor)
+bitwise_xor <= bitwise_and *('^' ws bitwise_and)
+bitwise_and <= eq *('&' ws eq)
+eq          <= rel *(('==' | '!=') ws rel)
+rel         <= sum *(('<=' | '<' | '>' | '>=') ws sum)
+
+# Math
+sum         <= prod *([+-] ws prod)
+prod        <= mod *([*/] ws mod)
+mod         <= power *('%' ws power)
+power       <= negation *(:'**' ws negation)
+negation    <= '-' ws access | access
+
+# Functions, Objects, Indexing
+access      <= indexing ?(:'.' identifier)
+indexing    <= fun_call ?(ws :'[' list :']') ws
+fun_call    <= unary ?(ws :'(' list :')') ws
+
+unary       <= :'(' ws expr :')'
+              | number
+              | boolean
+              | string
+              | identifier
+
+# Values & Types
+# =====================================================
+type        <- 'string'
+              | 'int32'
+              | 'int64'
+              | 'float32'
+              | 'float64'
+              | 'bool'
+              |  :'(' deflist :')' ws type 
+
+string      <- :'\'' *(!'\'' char) :'\'' ws | :'"' *(!'"' char) :'"' ws
+char        <- '\\\\' | '\\\'' | '\\"' | '\\' [ntrfb]
+              | '\\' [ux] +[0-9a-fA-F]
+              | '\\' [1-9] *[0-9] | .
+
+boolean     <- ('true' | 'false') ws
+
+decimal     <- '0' ![bx0-9] | [1-9] *[0-9] ?('.' +[0-9]) ?('e' +[0-9]) ws
+binary      <- :'0b' +[01] ws
+octal       <- :'0' +[0-7] ws
+hex         <- :'0x' +[0-9a-fA-F] ws
+number      <= decimal | binary | octal | hex
+
+# Whitespace
+# =====================================================
+ws          <: *([ \t\n\r] | comment)
+wsp         <: +([ \t\n\r] | comment)
