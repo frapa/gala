@@ -1,4 +1,4 @@
-# An Open Souce Programming language
+# An Open Souce Programming Language
 
 Gala is a typed multi-paradigm scripting and programming language, designed to be as
 simple as possible, while also offering familiar features such as function, classes.
