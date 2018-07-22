@@ -8,7 +8,7 @@ Gala is designed to be familiar if you come from a C-style language.
 
 Each value in Gala has a type. Currently the supported types are the following:
 
-#### Numeric
+### Numeric
 
  * `int32`
  * `int64`
@@ -16,7 +16,7 @@ Each value in Gala has a type. Currently the supported types are the following:
  * `float64`
  * `bool`
  
-#### Strings 
+### Strings 
 
  * `string` - unicode string
 
@@ -24,19 +24,19 @@ Each value in Gala has a type. Currently the supported types are the following:
 
 ## Literals
 
-#### Numeric
+### Numeric
 
- * `int32` and `int64` - Can be defined with binary, octal, decimal or hexadecimal literals
+ * `int32` and `int64` - Can be defined with binary, octal, decimal or hexadecimal literals.
     - Binary: `0b1010101`
     - Octal: `0644`
     - Decimal: `7618`
     - Hexadecimal: `0x1fad`
- * `float32` and `float64` - Can be defined in decimal only. Esponential notation is allowed
+ * `float32` and `float64` - Can be defined in decimal only. Scientific notation is allowed.
     - `12.34` or `123.456e7`
  * `bool`
     - Either `true` or `false`
 
-#### Strings
+### Strings
 
 String are surrounded by single (`'`) or double (`"`) quotes. Examples of string literals are
 
@@ -86,6 +86,78 @@ load float32 = 0.57;
 passed bool = true;
 ```
 
+## Expressions
+
+Expressions are combinations of constants literals, variables operators and functions
+that has a value. An example of an expression is a sum like `3 + 4`. Other example include:
+
+```
+7 * 8
+(variable + 17) / 8
+var1 or var2
+```
+
+Gala supports many standard operators, which are listed below.
+
+### Mathematical operators
+
+ * `+` and `-` - sum and difference
+ * `*` and `/` - product and quotient
+ * `%` - modulo or remainder
+ * `-` - negation as in `-2` or `-height`
+ * `**` - elevation to power as in `2**3 = 8`
+
+### Logical operators
+
+These
+
+ * `and`
+ * `or`
+ * `not`
+ * `==` - equality
+ * `!=` - inequality
+ * `<` and `<=` - less and less than
+ * `>` and `>=` - greater and greater than
+ 
+## Object operators
+
+ * `.` - access property
+ * `[]` - indexing
+ * `()` - function call
+ 
+### Bitwise operators
+
+ * `&` - bitwise and
+ * `^` - bitwise xor
+ * `|` - bitwise or
+ * `~` - bitwise negation or bit flipping
+
+Bitshifting is not (yet) supported
+
+### Operator precedence
+
+Operators have precedence as follows (first has precedence on last):
+
+| Precedence    | Operator      |
+| ------------- |:-------------:|
+| 1      | `()` |
+| 2      | `[]` |
+| 3      | `.` |
+| 4      | `-` |
+| 5      | `~` |
+| 6      | `not` |
+| 7      | `**` |
+| 8      | `%` |
+| 9      | `*`, `/` |
+| 10     | `+`, `-` |
+| 11     | `<`, `<=`, `>`, `>=` |
+| 12     | `==`, `!=` |
+| 13     | `&` |
+| 14     | `^` |
+| 15     | `|` |
+| 16     | `and` |
+| 17     | `or` |
+
 ## Functions
 
 Functions are defined as follows
@@ -106,7 +178,7 @@ fun (type1, type2) return_type
 
 which can be read as "a function that takes `type1` and `type2` and returns `return_type`".
 
-#### Return statement
+### Return statement
 
 To return a value from a function, use the return statement:
 
@@ -116,10 +188,32 @@ fun generate_a_one() int32 {
 }
 ```
 
-#### Function invocation
+### Function invocation
 
 To call a function and get the result, use the invocation syntax:
 
 ```
 one inte32 = generate_a_one();
+```
+
+
+## Comments
+
+Comments can have two different forms: line comments start with `//` and continue
+to the end of the line, while block comments start with `/*` and end with `*/` and
+can span multiple lines. Examples:
+
+```
+year int32 = 2018; // this part is ignored
+load float32 = /* you should not put comments in such a place, but yeah it works */ 0.57;
+
+/*
+ * This is a boring function that always returns 1.
+ * 
+ * As such it's totally useless.
+ */
+fun generate_a_one() int32 {
+    return 1;
+}
+
 ```

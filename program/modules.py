@@ -30,7 +30,8 @@ class Module(context.CodeObject):
     def to_c(self):
         code = ''
 
-        code += '#include <stdint.h>\n'
+        code += '#include <stdint.h>\n' # int32_t int64_t
+        code += '#include <stdbool.h>\n' # bools
         code += '#include <stdio.h>\n'
         code += '#include <math.h>\n'
 

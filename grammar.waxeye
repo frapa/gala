@@ -13,8 +13,8 @@ statement   <= ws (
 
 # Comments
 # =====================================================
-comment_ln  <: *[ \t\n\r] '//' *(!'\n' .)
-comment_bl  <: *[ \t\n\r] '/*' *(.) '*/'
+comment_ln  <: '//' *(!'\n' .)
+comment_bl  <: '/*' *(!'*/' .) '*/'
 comment     <: comment_ln | comment_bl
 
 # Basic
@@ -63,8 +63,10 @@ rel         <= sum *(('<=' | '<' | '>' | '>=') ws sum)
 sum         <= prod *([+-] ws prod)
 prod        <= mod *([*/] ws mod)
 mod         <= power *('%' ws power)
-power       <= negation *(:'**' ws negation)
-negation    <= :'-' ws access | access
+power       <= not *(:'**' ws not)
+not         <= 'not' wsa bitwise_not | bitwise_not
+bitwise_not <= '~' ws negation | negation
+negation    <= '-' ws access | access
 
 # Functions, Objects, Indexing
 access      <= indexing ?(:'.' identifier)

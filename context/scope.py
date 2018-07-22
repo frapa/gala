@@ -26,6 +26,9 @@ class Scope(object):
         return None
 
     def add(self, identifier, object):
+        if identifier.get_fully_qualified_name() in self.identifiers:
+            raise Exception('Redefining variable {var}'.format(var=identifier))
+
         self.identifiers[identifier.get_fully_qualified_name()] = object
 
     def __repr__(self):

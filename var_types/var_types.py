@@ -13,8 +13,9 @@ class Type(context.CodeObject):
         mapping = {
             'int32': 'int32_t',
             'int64': 'int64_t',
-            'float32': 'float32_t',
-            'float64': 'float64_t',
+            'float32': 'float',
+            'float64': 'double',
+            'bool': 'bool',
         }
 
         return mapping[self.T]
