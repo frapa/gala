@@ -6,4 +6,4 @@ class Expression(context.CodeObject):
         super(Expression, self).__init__(parent)
 
     def get_type(self):
-        return self.get_ctx().get('type')
+        raise NotImplementedError('get_type is not implemented for {}'.format(str(self.__class__.__name__)))

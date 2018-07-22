@@ -134,6 +134,10 @@ These
 
 Bitshifting is not (yet) supported
 
+### Ternary operator
+
+Not supported
+
 ### Operator precedence
 
 Operators have precedence as follows (first has precedence on last):
@@ -157,6 +161,31 @@ Operators have precedence as follows (first has precedence on last):
 | 15     | `|` |
 | 16     | `and` |
 | 17     | `or` |
+
+## Statements
+
+Gala supports common conditionals and loops statements.
+
+### Conditionals
+
+The most common conditional is the if/else statement, which in Gala is exactly like in many
+other languages:
+
+```
+if (condition1) {
+    ...
+} else if (condition2) {
+    ...
+} else {
+    ...
+}
+```
+
+You can also remove the parenthesis:
+
+```
+if (condition) a = 1;
+```
 
 ## Functions
 
@@ -196,6 +225,20 @@ To call a function and get the result, use the invocation syntax:
 one inte32 = generate_a_one();
 ```
 
+
+## Main function
+
+> This feature may change in future releases, because it's not very suitable for scripting.
+
+Just like C, Gala uses a `main` function as entry-point for a program.
+A valid Gala program always has one and only one main function.
+Here an example of a valid Gala program:
+
+```
+fun main() int32 {
+    // This is a complete program. Useless but complete.
+}
+```
 
 ## Comments
 

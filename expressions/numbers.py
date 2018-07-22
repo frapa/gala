@@ -7,6 +7,9 @@ class Decimal(expressions.Expression):
 
         self.number = "".join(expr.children)
 
+    def get_type(self):
+        return self.get_ctx().get('type')
+
     def to_c(self):
         return "{number}".format(number=self.number)
 
@@ -23,6 +26,9 @@ class Binary(expressions.Expression):
         # convert to oct
         self.number = dec
 
+    def get_type(self):
+        return self.get_ctx().get('type')
+
     def to_c(self):
         return "{number}".format(number=self.number)
 
@@ -33,6 +39,9 @@ class Octal(expressions.Expression):
 
         self.number = "0" + "".join(expr.children)
 
+    def get_type(self):
+        return self.get_ctx().get('type')
+
     def to_c(self):
         return "{number}".format(number=self.number)
 
@@ -42,6 +51,9 @@ class Hex(expressions.Expression):
         super(Hex, self).__init__(parent)
 
         self.number = "0x" + "".join(expr.children)
+
+    def get_type(self):
+        return self.get_ctx().get('type')
 
     def to_c(self):
         return "{number}".format(number=self.number)

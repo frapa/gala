@@ -3,7 +3,7 @@ import expressions
 import var_types
 
 class Return(statements.Statement):
-    def __init__(self, parent, expr):
+    def __init__(self, parent, stmt):
         super(Return, self).__init__(parent)
 
         fun = self.closest('Function')
@@ -15,7 +15,7 @@ class Return(statements.Statement):
         # mark as type as to allow proper casts
         self.get_ctx().set('type', fun.get_return_type())
 
-        self.expr = expressions.parse(self, expr.children[0])
+        self.expr = expressions.parse(self, stmt.children[0])
 
         # check if type if correct
         if fun.get_return_type() != self.expr.get_type():

@@ -1,6 +1,8 @@
 from expr_stmt import *
 from return_stmt import *
 from defassign import *
+from block import *
+from if_stmt import *
 
 def parse(parent, stmt):
     kind = stmt.type
@@ -10,6 +12,8 @@ def parse(parent, stmt):
         "expr": ExprStatement,
         "definition": Definition,
         "assignment": Assignment,
+        "block": Block,
+        "if": If,
     }
 
     if kind in mapping:

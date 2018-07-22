@@ -31,16 +31,20 @@ class Assignment(statements.Statement):
     def __init__(self, parent, stmt):
         super(Assignment, self).__init__(parent)
 
-        if stmt.children[0].type == 'expr':
+        if stmt.children[0].children[0].type != 'identifier':
             raise Exception("Expression not yet supported on left side of assignment")
 
-        self.left = Definition(self, stmt.children[0], terminator='')
+        if len(stmt.children[0].children) == 2:
+            self.left = Definition(self, stmt.children[0], terminator='')
+        else:
+            self.left = expressions.parse(self, stmt.children[0].children[0])
 
         # mark as type as to allow proper casts
         self.get_ctx().set('type', self.left.get_type())
 
         self.right = expressions.parse(self, stmt.children[1])
 
+        print(self.left.identifier, self.left.get_type(), self.right.get_type())
         if self.left.get_type() != self.right.get_type():
             raise Exception("Assigning {assign} to variable of type {var}".format(
                 var    = self.left.get_type(),

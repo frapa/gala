@@ -31,4 +31,5 @@ with open(args.entrypoint) as f:
     transpile.transpile(ast, filename=os.path.join('.gala', 'transpiled.c'))
 
     output_name = os.path.splitext(os.path.basename(args.entrypoint))[0]
-    subprocess.call(["clang", ".gala/transpiled.c", "-o", output_name, '-lm'])
+    subprocess.call(["clang", ".gala/transpiled.c", "-o", output_name, '-lm',
+         '-Wno-parentheses-equality'])

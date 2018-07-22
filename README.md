@@ -55,4 +55,4 @@ hells.
 
 ## Interested?
 
-Intrested in gala. Check out the [docs](/gala/docs/) or drop me an e-mail at francescopasa@gmail.com.
+Intrested in gala. Check out the [docs](https://frapa.github.io/gala/docs/) or drop me an e-mail at francescopasa@gmail.com.
